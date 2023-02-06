@@ -1,6 +1,14 @@
 import os
 import sys
+import  sqlalchemy 
+from sqlalchemy import create_engine
+import psycopg2
+user = "postgres"
+password = "changeme"
+host = "host.docker.internal"
 
+# user = str(os.getenv("USER"))
+# password = str(os.getenv("PASSWORD"))
 
 sys.path.append("/opt/airflow")
 
@@ -11,7 +19,9 @@ import time
 from airflow.providers.http.hooks.http import HttpHook
 import sys
 import tweepy
-
+import pandas as pd 
+from airflow.models import BaseOperator, DAG, TaskInstance
+from airflow.operators.python_operator import PythonOperator
 
 
 
@@ -38,7 +48,6 @@ If __name__ == "__main__": is used to define the main execution of the code.
 #The run function calls the extrai_twitter function and returns the results.
 
 #Finally, the code calls the class and sets the parameters for the search query, number of tweets, day, and language.
-
 
 
 from dotenv import load_dotenv , dotenv_values
@@ -116,6 +125,3 @@ if __name__ == "__main__":
     json_twitter = (TwitterHook(search_query, no_of_tweets, day, language).run())
     with open("extract_twitter.json","w") as outfile:
         outfile.write(json_twitter)
-    
-    
-    
